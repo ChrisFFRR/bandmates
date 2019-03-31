@@ -1,14 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".LoginFragment">
+
 
 
     <LinearLayout
-            android:layout_weight="1"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:orientation="vertical"
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
+
+        <EditText
+                android:id="@+id/editTextUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="username"
+                android:inputType="textPersonName"
+                android:paddingBottom="15dp"
+                android:textColorHint="@color/colorFontSecondary" />
 
         <EditText
                 android:id="@+id/editTextEmail"
@@ -37,24 +51,12 @@
                 android:layout_gravity="center"
                 android:layout_margin="7dp"
                 android:background="@drawable/rounded_button"
-                android:text="Login"
+                android:text="Sign up"
                 style="@style/customFont"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite" />
 
-        <TextView
-                android:id="@+id/textViewSignup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:text="Don't have account? Sign Up"
-                style="@style/customFont"
-                android:textAlignment="center"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorAccent" />
 
     </LinearLayout>
 
-
-
-
+</FrameLayout>

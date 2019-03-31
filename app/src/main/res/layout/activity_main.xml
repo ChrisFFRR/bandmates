@@ -10,7 +10,7 @@
 
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1">
 
         <ImageView
@@ -21,68 +21,18 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_height="wrap_content">
 
-        <LinearLayout
+        <fragment
+                android:id="@+id/login_fragment"
+                class="no.marchand.bandmates.LoginFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:orientation="vertical"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_login"/>
 
-            <EditText
-                    android:id="@+id/editTextEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:hint="email"
-                    android:inputType="textEmailAddress"
-                    android:paddingBottom="15dp"
-                    android:textColorHint="@color/colorFontSecondary" />
-
-            <EditText
-                    android:id="@+id/editTextPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:hint="password"
-                    android:inputType="textPassword"
-                    android:paddingBottom="15dp"
-                    android:textColorHint="@color/colorFontSecondary" />
-
-            <Button
-                    android:id="@+id/buttonLogin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="7dp"
-                    android:background="@drawable/rounded_button"
-                    android:text="Login"
-                    style="@style/customFont"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorWhite" />
-
-            <TextView
-                    android:id="@+id/textViewSignup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:text="Don't have account? Sign Up"
-                    style="@style/customFont"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorAccent" />
-
-        </LinearLayout>
-
-
-
-
-    </RelativeLayout>
+    </FrameLayout>
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

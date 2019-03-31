@@ -12,7 +12,7 @@
 
 
     <style name="customFont">
-        <item name="android:fontFamily">@font/ExodusRegular</item>
+        <item name="android:fontFamily">@font/exodusregular</item>
     </style>
 
 </resources>

@@ -6,7 +6,6 @@
              tools:context=".LoginFragment">
 
 
-
     <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -60,7 +59,8 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorAccent"/>
+                android:textColor="@color/colorAccent"
+                />
 
     </LinearLayout>
 

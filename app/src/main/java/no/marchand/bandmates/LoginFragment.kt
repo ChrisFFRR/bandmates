@@ -1,5 +1,6 @@
 package no.marchand.bandmates
 
+import android.content.Intent
 import android.os.Bundle
 
 
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
@@ -25,6 +27,13 @@ class LoginFragment: Fragment() {
         val passwordInput: EditText = view.findViewById(R.id.editText_pwd)
 
         val signupBtn: TextView = view.findViewById(R.id.textView_Signup)
+
+        val loginBtn: Button = view.findViewById(R.id.btn_Login)
+
+        loginBtn.setOnClickListener {
+           val mapActivity = Intent(activity, MapsActivity::class.java)
+            startActivity(mapActivity)
+        }
 
         signupBtn.setOnClickListener {
             val signupFragment: Fragment = SignupFragment()

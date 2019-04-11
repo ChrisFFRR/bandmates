@@ -35,7 +35,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locationManager: LocationManager
     private var locationGps: Location? = null
     private var locationNetwork: Location? = null
-    private lateinit var currentPos: LatLng
+    private  var currentPos: LatLng = LatLng(0.0,0.0)
 
 
     private var hasGps = false

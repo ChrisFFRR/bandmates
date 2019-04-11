@@ -14,6 +14,8 @@ import android.os.Bundle
 
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
+
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -21,13 +23,13 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
+
 private const val PERMISSION_REQUEST = 10
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     //tilganger nødvendig for lokasjon
-    private var permissions =
-        arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+    private var permissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
 
     private lateinit var mMap: GoogleMap
     private lateinit var locationManager: LocationManager
@@ -52,6 +54,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             getLocation()
         }
+        Log.d("OBS", "ON CREATE")
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -60,12 +63,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+
         mMap = googleMap
 
 
-        mMap.addMarker(MarkerOptions().position(currentPos).title("You"))
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(currentPos))
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentPos, 15f))
+        mMap.run {
+            addMarker(MarkerOptions().position(currentPos).title("You"))
+            animateCamera(CameraUpdateFactory.newLatLngZoom(currentPos, 10f))
+        }
     }
 
 
@@ -74,6 +79,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         hasGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         hasNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        var lat = 0.0
+        var long = 0.0
 
         if (hasGps || hasNetwork) {
             if (hasGps) {
@@ -85,7 +92,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         override fun onLocationChanged(location: Location?) {
                             if (location != null) {
                                 locationGps = location
+                                lat = locationGps!!.latitude
+                                long = locationGps!!.longitude
                             }
+                                currentPos = LatLng(lat, long)
+
                         }
 
                         override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
@@ -117,7 +128,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         override fun onLocationChanged(location: Location?) {
                             if (location != null) {
                                 locationNetwork = location
+                                 lat = locationNetwork!!.latitude
+                                 long = locationNetwork!!.longitude
                             }
+                            currentPos = LatLng(lat, long)
                         }
 
                         override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
@@ -133,14 +147,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     })
 
-                val localNetworkLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                val localNetworkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                 if (localNetworkLocation != null) {
                     locationNetwork = localNetworkLocation
                 }
 
                 if (locationGps != null && locationNetwork != null) {
-                    var lat: Double
-                    var long: Double
+
                     if (locationGps!!.accuracy > locationNetwork!!.accuracy) {
                         lat = locationNetwork!!.latitude
                         long = locationNetwork!!.longitude

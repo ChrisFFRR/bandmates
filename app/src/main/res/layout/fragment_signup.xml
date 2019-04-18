@@ -9,22 +9,31 @@
     <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="750px"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
 
         <EditText
-                android:id="@+id/editTextUsername"
+                android:id="@+id/editTxt_firstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="username"
+                android:hint="First name"
                 android:inputType="textPersonName"
                 android:paddingBottom="15dp"
                 android:textColorHint="@color/colorFontSecondary"/>
 
         <EditText
-                android:id="@+id/editTextEmail"
+                android:id="@+id/editTxt_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Last name"
+                android:inputType="textPersonName"
+                android:paddingBottom="15dp"
+                android:textColorHint="@color/colorFontSecondary"/>
+
+        <EditText
+                android:id="@+id/editTxt_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
@@ -34,7 +43,7 @@
                 android:textColorHint="@color/colorFontSecondary"/>
 
         <EditText
-                android:id="@+id/editTextPassword"
+                android:id="@+id/editTxt_pwd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
@@ -43,8 +52,48 @@
                 android:paddingBottom="15dp"
                 android:textColorHint="@color/colorFontSecondary"/>
 
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AGE"
+                    android:clickable="true"
+                    android:id="@+id/txtView_age"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="30dp"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="INSTRUMENT"
+                    android:clickable="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginHorizontal="10dp"
+                    android:id="@+id/txtView_instrument"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="30dp"
+                    android:text="CITY"
+                    android:clickable="true"
+                    android:id="@+id/txtView_city"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="30dp"/>
+        </RelativeLayout>
+
+
         <Button
-                android:id="@+id/buttonLogin"
+                android:id="@+id/btn_signUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -54,6 +103,20 @@
                 style="@style/customFont"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"/>
+
+        <TextView
+                android:id="@+id/textView_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Already have an account? LOG IN"
+                style="@style/customFont"
+                android:textAlignment="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorAccent"
+                />
 
 
     </LinearLayout>

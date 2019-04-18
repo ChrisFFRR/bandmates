@@ -12,12 +12,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import kotlin.math.sign
+import com.google.firebase.auth.FirebaseAuth
 
 
 class LoginFragment: Fragment() {
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstance: Bundle?): View? {
         val view =  inflater.inflate(R.layout.fragment_login,container,false)
@@ -26,14 +27,18 @@ class LoginFragment: Fragment() {
         val emailInput: EditText = view.findViewById(R.id.editText_email)
         val passwordInput: EditText = view.findViewById(R.id.editText_pwd)
 
-        val signupBtn: TextView = view.findViewById(R.id.textView_Signup)
 
         val loginBtn: Button = view.findViewById(R.id.btn_Login)
+
+
+
 
         loginBtn.setOnClickListener {
            val mapActivity = Intent(activity, MapsActivity::class.java)
             startActivity(mapActivity)
         }
+
+        /*
 
         signupBtn.setOnClickListener {
             val signupFragment: Fragment = SignupFragment()
@@ -43,6 +48,7 @@ class LoginFragment: Fragment() {
             transaction.replace(R.id.fragment_container, signupFragment)
             transaction.commit()
         }
+        */
 
 
 

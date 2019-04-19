@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
@@ -57,38 +58,75 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center">
 
-            <TextView
+
+            <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="AGE"
                     android:clickable="true"
-                    android:id="@+id/txtView_age"
-                    android:layout_marginTop="30dp"
+                    android:id="@+id/btn_age"
+                    android:layout_marginTop="15dp"
                     android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginBottom="30dp"/>
+                    android:layout_marginEnd="30dp"/>
 
-            <TextView
+            <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="INSTRUMENT"
                     android:clickable="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginHorizontal="10dp"
-                    android:id="@+id/txtView_instrument"/>
+                    android:layout_marginTop="15dp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/btn_instrument"/>
 
-            <TextView
+            <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_margin="30dp"
                     android:text="CITY"
                     android:clickable="true"
-                    android:id="@+id/txtView_city"
-                    android:layout_marginTop="30dp"
+                    android:id="@+id/btn_city"
+                    android:layout_marginTop="15dp"
                     android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginBottom="30dp"/>
+                    android:layout_marginEnd="30dp"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtViewDisplay_age"
+                        android:layout_below="@+id/btn_age"
+                        android:layout_alignLeft="@id/btn_age"
+                        android:layout_alignRight="@id/btn_age"
+                        android:textAlignment="center"
+                        android:textSize="19sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorFontSecondary"
+                        android:layout_marginTop="8dp"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:layout_below="@+id/btn_instrument"
+                        android:layout_alignRight="@id/btn_instrument"
+                        android:layout_alignLeft="@+id/btn_instrument"
+                        android:textColor="@color/colorFontSecondary"
+                        android:textSize="19sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/txtViewDisplay_instrument"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:layout_below="@id/btn_city"
+                        android:layout_alignRight="@id/btn_city"
+                        android:textColor="@color/colorFontSecondary"
+                        android:textSize="19sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/txtViewDisplay_city"
+                        />
         </RelativeLayout>
 
 

@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import kotlinx.android.synthetic.main.age_dialog.*
 import kotlinx.android.synthetic.main.age_dialog.view.*
+import no.marchand.bandmates.database.User
 import java.lang.RuntimeException
 
 class SignupFragment : Fragment() {
@@ -23,11 +24,9 @@ class SignupFragment : Fragment() {
     private var mAge = ""
     private var mInstrument = ""
     private var mCity = ""
-    private var mListener: OnFragmentLoginListener? = null
+    private var mListener: OnFragmentInputListener? = null
 
-    interface OnFragmentLoginListener {
-        fun onRegisterInputs(first: String, last: String, email: String, age: String, instrument: String, city: String, pw: String)
-    }
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstance: Bundle?): View? {
@@ -65,15 +64,19 @@ class SignupFragment : Fragment() {
         }
 
         signUpBtn.setOnClickListener {
-            val firstName = editTxtFirstName.text.toString()
-            val lastName = editTxtLastName.text.toString()
+            val tempUser = User()
+            tempUser.uid = ""
+                tempUser.firstName = editTxtFirstName.text.toString()
+            tempUser.lastName = editTxtLastName.text.toString()
+            tempUser.age = mAge
+            tempUser.instrument = mInstrument
+            tempUser.city = mCity
             val email = editTxtEmail.text.toString()
             val pwd = editTxtPwd.text.toString()
 
 
-
             if (!validateInputs(inputIds, btnInputId)) {
-                mListener?.onRegisterInputs(firstName, lastName, email, mAge, mInstrument, mCity, pwd)
+                mListener?.onRegisterInputs(tempUser, email, pwd)
             } else {
                 Toast.makeText(activity, "Fill in all blank fields", Toast.LENGTH_SHORT).show()
             }
@@ -165,10 +168,10 @@ class SignupFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnFragmentLoginListener) {
+        if (context is OnFragmentInputListener) {
             mListener = context
         } else {
-            throw RuntimeException(context.toString() + "must implement OnFragmentLoginListener")
+            throw RuntimeException(context.toString() + "must implement OnFragmentInputListener")
         }
     }
 
@@ -177,18 +180,18 @@ class SignupFragment : Fragment() {
         mListener = null
     }
 
-    private fun validateInputs(ids: IntArray, btnIds: IntArray): Boolean {
+     private fun validateInputs(ids: IntArray, btnIds: IntArray): Boolean {
         var isEmpty = false
 
         for (id in ids) {
-            var editText: EditText? = view?.findViewById(id)
+            val editText: EditText? = view?.findViewById(id)
             if (TextUtils.isEmpty(editText?.text.toString())) {
                 editText?.error = "Must insert value"
                 isEmpty = true
             }
         }
         for (id in btnIds) {
-            var txtViews: TextView? = view?.findViewById(id)
+            val txtViews: TextView? = view?.findViewById(id)
             if (TextUtils.isEmpty(txtViews?.text.toString())) {
                 txtViews?.error = "Must insert value"
                 isEmpty = true

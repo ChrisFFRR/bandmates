@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
 
 data class User(
     @PrimaryKey (autoGenerate = true) var id: Long = 0,
+    @ColumnInfo (name = "fb_uid") var uid: String?,
     @ColumnInfo (name = "first_name") var firstName: String?,
     @ColumnInfo (name = "last_name") var lastName: String?,
     @ColumnInfo (name = "city") var city: String?,
@@ -15,7 +16,7 @@ data class User(
     @ColumnInfo (name = "age") var age: String?,
     @ColumnInfo (name= "bio") var bio: String?
 ) {
-    constructor() : this(0,"","","","","","")
+    constructor() : this(0,"","","","","","", "")
 }
 
 

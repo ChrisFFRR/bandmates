@@ -7,7 +7,10 @@ import androidx.room.*
 interface UserDao {
 
     @Query("SELECT * FROM user_table")
-    fun getAll(): LiveData<List<User>>
+    fun getAllLive(): LiveData<List<User>>
+
+    @Query("SELECT * FROM user_table")
+    fun getAll(): List<User>
 
     @Query( "SELECT * FROM user_table WHERE id IN (:userId)")
     fun getUserById(userId: Int): LiveData<User>

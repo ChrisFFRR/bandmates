@@ -13,11 +13,8 @@ import com.google.firebase.auth.FirebaseUser
 import no.marchand.bandmates.database.User
 
 
-class MainActivity : AppCompatActivity(), SignupFragment.OnFragmentLoginListener {
+class MainActivity : AppCompatActivity(), OnFragmentInputListener {
 
-    private lateinit var userPojo: User
-    private lateinit var mEmail: String
-    private lateinit var mPwd: String
 
     private lateinit var mAuth: FirebaseAuth
     private var currentUser: FirebaseUser? = null
@@ -30,63 +27,36 @@ class MainActivity : AppCompatActivity(), SignupFragment.OnFragmentLoginListener
         setContentView(R.layout.activity_main)
 
         userModel = UserViewModel(application)
-        Log.d("D/", "MAIN ACTIVITY")
-
 
         mAuth = FirebaseAuth.getInstance()
+        currentUser = mAuth.currentUser
 
-        if (currentUser == null) {
-            val signupFragment: Fragment = SignupFragment()
-            this.switchFragment(signupFragment)
+        if (currentUser != null) {
+            startActivity(Intent(this, UserProfileActivity::class.java))
         } else {
             val loginFragment: Fragment = LoginFragment()
             this.switchFragment(loginFragment)
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (currentUser != null) {
-            val loginFragment: Fragment = LoginFragment()
-            this.switchFragment(loginFragment)
-        }
+    override fun onRegisterInputs(user: User, pw: String, email: String) {
 
+        registerUser(pw, email)
+        userModel.insert(user)
 
     }
 
-    override fun onRegisterInputs(
-        first: String,
-        last: String,
-        email: String,
-        age: String,
-        instrument: String,
-        city: String,
-        pw: String
-    ) {
-
-        userPojo = User()
-
-        userPojo.firstName = first
-        userPojo.lastName = last
-        mEmail = email
-        mPwd = pw
-        userPojo.age = age
-        userPojo.instrument = instrument
-        userPojo.city = city
-
-        registerUser()
+    override fun onLoginInputs(email: String, pw: String) {
+        mAuth.signInWithEmailAndPassword(email, pw).addOnCompleteListener(this) { task ->
+            if (task.isComplete) {
 
 
-        userModel.insert(userPojo)
-
-        Log.d("first name: ", userPojo.firstName)
-        Log.d("last name: ", userPojo.lastName)
-        Log.d("Email: ", mEmail)
-        Log.d("PWD: ", mPwd)
-        Log.d("AGE: ", userPojo.age)
-        Log.d("Instrument: ", userPojo.instrument)
-        Log.d("City: ", userPojo.city)
-
+                Log.d("CURRENT USER: ", currentUser.toString())
+                startActivity(Intent(this, UserProfileActivity::class.java))
+            } else {
+                Toast.makeText(this@MainActivity, task.exception?.message, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 
@@ -98,15 +68,17 @@ class MainActivity : AppCompatActivity(), SignupFragment.OnFragmentLoginListener
         transaction.commit()
     }
 
-    private fun registerUser() {
-        mAuth.createUserWithEmailAndPassword(mEmail, mPwd).addOnCompleteListener(this) { task ->
+
+    private fun registerUser(email: String, pwd: String) {
+        mAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 // Sign in success, update UI with the signed-in user's information
-                Log.d("SUCCESS: ", "signInWithEmail:success")
-
-                Toast.makeText(this@MainActivity, "Account created", Toast.LENGTH_SHORT).show()
 
                 this.currentUser = mAuth.currentUser
+
+
+                Log.d("SUCCESS: ", "signInWithEmail:success")
+                Toast.makeText(this@MainActivity, "Account created", Toast.LENGTH_SHORT).show()
                 val loginFragment: Fragment = LoginFragment()
                 this.switchFragment(loginFragment)
 
@@ -114,7 +86,7 @@ class MainActivity : AppCompatActivity(), SignupFragment.OnFragmentLoginListener
                 // If sign in fails, display a message to the user.
                 Log.w("FAIL: ", "signInWithEmail:failure", task.exception)
                 Toast.makeText(
-                    this@MainActivity, "Authentication failed.",
+                    this@MainActivity, task.exception?.message,
                     Toast.LENGTH_SHORT
                 ).show()
             }

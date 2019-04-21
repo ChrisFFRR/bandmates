@@ -14,21 +14,31 @@ import kotlin.coroutines.CoroutineContext
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
 
+
+
+    private val repository: UserRepository
+   private lateinit var user: LiveData<User>
+    val allUsers: LiveData<List<User>>
+
     private var parentJob = Job()
     private val coroutineContext: CoroutineContext
         get() = parentJob + Dispatchers.Main
     private val scope = CoroutineScope(coroutineContext)
 
-    private val repository: UserRepository
-      val allUsers: LiveData<List<User>>
-
     init {
-        val userDao = AppDb.getDatabase(application).userDao()
+        val userDao = AppDb.getDatabase(application.applicationContext).userDao()
         repository = UserRepository(userDao)
-        allUsers = repository.allUsers
+        allUsers = repository.getAllLive()
+
+    }
+
+
+    fun getUser(): LiveData<User> {
+        return this.user
     }
 
     fun insert(user:User) = scope.launch(Dispatchers.IO) {
+
         repository.insert(user)
     }
 
@@ -47,6 +57,12 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     fun getallUsers() = scope.launch(Dispatchers.IO) {
         repository.getAll()
     }
+
+    fun getUserById(id : Int) = scope.launch(Dispatchers.IO) {
+        repository.getById(id)
+    }
+
+
 
     override fun onCleared() {
         super.onCleared()

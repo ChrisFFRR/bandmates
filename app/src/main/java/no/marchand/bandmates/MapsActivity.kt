@@ -15,6 +15,8 @@ import android.os.Bundle
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -22,12 +24,15 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 private const val PERMISSION_REQUEST = 10
+private const val ACTIVITY_NUM = 0
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+
+
     //tilganger nødvendig for lokasjon
     private var permissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
 
@@ -46,6 +51,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
+        setupBottomNavView()
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkPermission(permissions)) {
                 getLocation()
@@ -59,6 +67,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+
 
     }
 
@@ -176,6 +186,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 allSuccess = false
         }
         return allSuccess
+    }
+
+    private fun setupBottomNavView() {
+        val bottomNav: BottomNavigationView = findViewById(R.id.bottom_nav_view_bar)
+        NavBottomUtil.enableNavigation(this, bottomNav)
+        val menu: Menu = bottomNav.menu
+        val menuItem: MenuItem = menu.getItem(ACTIVITY_NUM)
+        menuItem.isChecked = true
     }
 
 }

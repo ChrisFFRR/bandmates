@@ -38,12 +38,22 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0-alpha05'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
-    implementation 'com.google.firebase:firebase-auth:16.2.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
+
+    //debug db
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
+    //glide image loading
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    kapt 'com.github.bumptech.glide:compiler:4.9.0'
+
+    //circular imageview library
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+    //firebase  authentication
+    implementation 'com.google.firebase:firebase-auth:16.2.1'
     //room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"

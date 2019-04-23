@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 
 data class User(
     @PrimaryKey (autoGenerate = true) var id: Long = 0,
-    @ColumnInfo (name = "fb_uid") var uid: String?,
+    @ColumnInfo (name = "profile_pic_path") var profile_pic_path: String?,
     @ColumnInfo (name = "first_name") var firstName: String?,
     @ColumnInfo (name = "last_name") var lastName: String?,
     @ColumnInfo (name = "city") var city: String?,

@@ -48,6 +48,20 @@
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"/>
 
+        <TextView
+                android:id="@+id/textView_signup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Don't have an account? SIGN UP"
+                style="@style/customFont"
+                android:textAlignment="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorAccent"
+                />
+
 
 
     </LinearLayout>

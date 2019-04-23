@@ -16,7 +16,7 @@ import no.marchand.bandmates.database.User
 class MainActivity : AppCompatActivity(), OnFragmentInputListener {
 
 
-    private lateinit var mAuth: FirebaseAuth
+    private val mAuth = FirebaseAuth.getInstance()
     private var currentUser: FirebaseUser? = null
 
     private lateinit var userModel: UserViewModel
@@ -27,12 +27,15 @@ class MainActivity : AppCompatActivity(), OnFragmentInputListener {
         setContentView(R.layout.activity_main)
 
         userModel = UserViewModel(application)
+    }
 
-        mAuth = FirebaseAuth.getInstance()
+    override fun onStart() {
+        super.onStart()
         currentUser = mAuth.currentUser
-
         if (currentUser != null) {
-            startActivity(Intent(this, UserProfileActivity::class.java))
+            val i = Intent(this, UserProfileActivity::class.java)
+            startActivity(i)
+
         } else {
             val loginFragment: Fragment = LoginFragment()
             this.switchFragment(loginFragment)
@@ -50,7 +53,6 @@ class MainActivity : AppCompatActivity(), OnFragmentInputListener {
         mAuth.signInWithEmailAndPassword(email, pw).addOnCompleteListener(this) { task ->
             if (task.isComplete) {
 
-
                 Log.d("CURRENT USER: ", currentUser.toString())
                 startActivity(Intent(this, UserProfileActivity::class.java))
             } else {
@@ -58,7 +60,6 @@ class MainActivity : AppCompatActivity(), OnFragmentInputListener {
             }
         }
     }
-
 
     private fun switchFragment(defaultFragment: Fragment) {
         val manager: FragmentManager = this.supportFragmentManager
@@ -74,13 +75,16 @@ class MainActivity : AppCompatActivity(), OnFragmentInputListener {
             if (task.isSuccessful) {
                 // Sign in success, update UI with the signed-in user's information
 
-                this.currentUser = mAuth.currentUser
+                //this.currentUser = mAuth.currentUser
 
 
                 Log.d("SUCCESS: ", "signInWithEmail:success")
                 Toast.makeText(this@MainActivity, "Account created", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, UserProfileActivity::class.java))
+                /*
                 val loginFragment: Fragment = LoginFragment()
                 this.switchFragment(loginFragment)
+                */
 
             } else {
                 // If sign in fails, display a message to the user.

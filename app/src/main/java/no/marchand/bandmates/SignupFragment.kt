@@ -65,7 +65,6 @@ class SignupFragment : Fragment() {
 
         signUpBtn.setOnClickListener {
             val tempUser = User()
-            tempUser.uid = ""
                 tempUser.firstName = editTxtFirstName.text.toString()
             tempUser.lastName = editTxtLastName.text.toString()
             tempUser.age = mAge

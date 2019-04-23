@@ -33,8 +33,9 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-    fun getUser(): LiveData<User> {
-        return this.user
+
+    fun countAll() = scope.launch(Dispatchers.IO) {
+        repository.countAll()
     }
 
     fun insert(user:User) = scope.launch(Dispatchers.IO) {
@@ -44,6 +45,13 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     fun update(user: User) = scope.launch(Dispatchers.IO) {
         repository.update(user)
+    }
+
+    fun updateProfilePic(path: String?, id: Int ) = scope.launch(Dispatchers.IO) {
+        repository.updateProfilePic(path, id)
+    }
+    fun updateBio(bio: String, id: Int) = scope.launch(Dispatchers.IO) {
+        repository.updateUserBio(bio, id)
     }
 
     fun deleteUser(user:User) = scope.launch(Dispatchers.IO) {

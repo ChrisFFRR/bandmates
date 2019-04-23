@@ -16,6 +16,11 @@ class UserRepository(private val userDao: UserDao) {
     }
 
     @WorkerThread
+    fun countAll() {
+        userDao.countAll()
+    }
+
+    @WorkerThread
     fun getById(id: Int): LiveData<User> {
        return userDao.getUserById(id)
     }
@@ -24,6 +29,16 @@ class UserRepository(private val userDao: UserDao) {
      fun update(user: User) {
         userDao.updateUser(user)
     }
+    @WorkerThread
+    fun updateProfilePic(path: String?, id: Int) {
+        userDao.updateProfilePic(path, id)
+    }
+
+    @WorkerThread
+    fun updateUserBio(bio: String, id: Int) {
+        userDao.updateUserBio(bio, id)
+    }
+
 
     @WorkerThread
      fun delete(user: User) {

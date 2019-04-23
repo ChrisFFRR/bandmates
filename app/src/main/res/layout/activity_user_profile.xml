@@ -44,6 +44,11 @@
                         android:src="@drawable/profile_pic_shape"
                         android:id="@+id/profile_pic_holder"/>
 
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="150dp"
+                        android:id="@+id/profile_pic_display"
+                        android:layout_height="150dp"/>
+
                 <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
@@ -149,28 +154,44 @@
             <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_gravity="center_vertical"
                     app:cardCornerRadius="4dp"
                     app:cardUseCompatPadding="true"
                     app:cardPreventCornerOverlap="false"
                     app:cardElevation="3dp">
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
 
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:layout_margin="5dp"
                         android:textStyle="bold"
+                        android:id="@+id/txtView_about"
                         android:textColor="@color/design_default_color_primary_dark"
                         android:text="ABOUT ME"/>
-                <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/btn_editBio"
-                        android:text="Edit"
-                        android:layout_gravity="end"/>
 
+                <TextView
+                        android:layout_width="260dp"
+                        android:layout_margin="16dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtView_Bio"
+                        android:inputType="textMultiLine"
+                        android:text="2fgpfkgdpfokgdpfkgdpfkgdfpog"
+                        android:layout_below="@id/txtView_about"/>
+
+                    <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:id="@+id/btn_editBio"
+                            android:text="Edit"/>
+                </RelativeLayout>
             </androidx.cardview.widget.CardView>
+
 
 
 

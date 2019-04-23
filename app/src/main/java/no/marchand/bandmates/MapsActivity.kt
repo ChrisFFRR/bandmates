@@ -196,4 +196,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         menuItem.isChecked = true
     }
 
+
 }

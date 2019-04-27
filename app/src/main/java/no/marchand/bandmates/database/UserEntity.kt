@@ -3,9 +3,11 @@ package no.marchand.bandmates.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.firebase.database.IgnoreExtraProperties
 
 @Entity(tableName = "user_table")
 
+@IgnoreExtraProperties
 data class User(
     @PrimaryKey (autoGenerate = true) var id: Long = 0,
     @ColumnInfo (name = "profile_pic_path") var profile_pic_path: String?,

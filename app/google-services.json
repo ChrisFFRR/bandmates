@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "875794639434-gcg8i72k5polcjijh072oaqbprqcgcbk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "no.marchand.bandmates",
+            "certificate_hash": "8cda573001951aec9f1f1e3040b8fdcaeadc78e5"
+          }
+        },
+        {
           "client_id": "875794639434-94sdevechfsp3dbb8b87dlcgq3hj3lve.apps.googleusercontent.com",
           "client_type": 3
         }

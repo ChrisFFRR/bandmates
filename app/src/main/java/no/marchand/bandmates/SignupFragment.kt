@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import kotlinx.android.synthetic.main.age_dialog.*
-import kotlinx.android.synthetic.main.age_dialog.view.*
+import kotlinx.android.synthetic.main.dialog_age.*
+import kotlinx.android.synthetic.main.dialog_age.view.*
 import no.marchand.bandmates.database.User
 import java.lang.RuntimeException
 
@@ -82,7 +82,7 @@ class SignupFragment : Fragment() {
         }
 
         ageOption.setOnClickListener {
-            val mAgeDialogView = LayoutInflater.from(activity).inflate(R.layout.age_dialog, null)
+            val mAgeDialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_age, null)
             val numberPicker = mAgeDialogView.findViewById<NumberPicker>(R.id.numberPicker)
 
 

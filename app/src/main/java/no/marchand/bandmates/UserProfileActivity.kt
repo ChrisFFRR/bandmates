@@ -2,16 +2,13 @@ package no.marchand.bandmates
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -25,10 +22,8 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_user_profile.*
-import kotlinx.android.synthetic.main.bio_dialog.*
-import kotlinx.android.synthetic.main.bio_dialog.view.*
+import kotlinx.android.synthetic.main.dialog_bio.view.*
 
 private const val ACTIVITY_NUM = 1
 private const val EXTERNAL_STORAGE_REQ_CODE = 2
@@ -122,7 +117,7 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         editBioBtn.setOnClickListener{
-            val mBioDialogView = LayoutInflater.from(this).inflate(R.layout.bio_dialog, null)
+            val mBioDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_bio, null)
             val mEditBio = mBioDialogView.findViewById<EditText>(R.id.editTxt_dialog)
 
             val mBuilder = AlertDialog.Builder(this).setView(mBioDialogView).setTitle("Write bio")

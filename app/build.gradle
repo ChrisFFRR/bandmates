@@ -54,6 +54,10 @@ dependencies {
 
     //firebase  authentication
     implementation 'com.google.firebase:firebase-auth:16.2.1'
+
+    //firebase database
+    implementation 'com.google.firebase:firebase-database:16.1.0'
+
     //room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -62,7 +66,7 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$archLifecycleVersion"
     kapt "android.arch.lifecycle:compiler:$archLifecycleVersion"
 
-// Coroutines
+    //Coroutines
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
 

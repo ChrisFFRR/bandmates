@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+    <FrameLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".UserProfileActivity"
+            android:background="@color/lightgray"
+            android:orientation="vertical">
+
+
+        <LinearLayout
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sign Out"
+                    android:id="@+id/btn_signOut"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"/>
+
+            <FrameLayout
+
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:id="@+id/frameLayout">
+
+
+                <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/profile_pic_shape"
+                        android:id="@+id/profile_pic_holder"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="150dp"
+                        android:id="@+id/profile_pic_display"
+                        android:layout_height="150dp"/>
+
+                <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/add"
+                        android:id="@+id/plus_sign"/>
+
+                <ImageButton
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="bottom|end"
+                        android:src="@drawable/camera_icon"
+                        android:id="@+id/choosePic_btn"
+                        android:contentDescription="TODO"/>
+            </FrameLayout>
+
+            <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Test user"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:textSize="21sp"
+                    android:id="@+id/textview_display_name"/>
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_vertical|center">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:textColor="@color/design_default_color_primary_dark"
+                        android:textStyle="bold"
+                        android:text="AGE"/>
+
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textColor="@color/design_default_color_primary_dark"
+                        android:textStyle="bold"
+                        android:text="INSTRUMENT"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="@color/design_default_color_primary_dark"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="20dp"
+                        android:text="CITY"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/relativeLayout_UserInfo"
+                    android:layout_gravity="center_vertical|center">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:textColor="@color/design_default_color_primary_dark"
+                        android:textStyle="bold"
+                        android:textSize="19sp"
+                        android:text="30"
+                        android:id="@+id/textview_display_age"/>
+
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textColor="@color/design_default_color_primary_dark"
+                        android:textStyle="bold"
+                        android:textSize="19sp"
+                        android:text="Guitar"
+                        android:id="@+id/textview_display_instrument"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="@color/design_default_color_primary_dark"
+                        android:textStyle="bold"
+                        android:textSize="19sp"
+                        android:layout_marginEnd="20dp"
+                        android:text="Oslo"
+                        android:id="@+id/textview_display_city"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:layout_gravity="center_vertical"
+                    app:cardCornerRadius="4dp"
+                    app:cardUseCompatPadding="true"
+                    app:cardPreventCornerOverlap="false"
+                    app:cardElevation="3dp">
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_margin="5dp"
+                        android:textStyle="bold"
+                        android:id="@+id/txtView_about"
+                        android:textColor="@color/design_default_color_primary_dark"
+                        android:text="ABOUT ME"/>
+
+                <TextView
+                        android:layout_width="260dp"
+                        android:layout_margin="16dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtView_Bio"
+                        android:inputType="textMultiLine"
+                        android:text="2fgpfkgdpfokgdpfkgdpfkgdfpog"
+                        android:layout_below="@id/txtView_about"/>
+
+                    <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:id="@+id/btn_editBio"
+                            android:text="Edit"/>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@color/colorPrimaryDark"
+                android:backgroundTint="@color/colorPrimary"
+                android:id="@+id/bottom_nav_view_bar"
+                app:menu="@menu/bottom_nav_menu">
+
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+    </FrameLayout>
+
+
+
+</ScrollView>

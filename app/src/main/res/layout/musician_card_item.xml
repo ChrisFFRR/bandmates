@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/musician_card_view"
+        android:layout_margin="16dp"
+        card_view:contentPadding="4dp"
+        card_view:cardCornerRadius="6dp"
+        card_view:cardElevation="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
+
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:id="@+id/rel_layout_info">
+
+        <ImageView
+                android:layout_width="68dp"
+                android:layout_height="68dp"
+                android:id="@+id/musician_picholder"
+                android:src="@drawable/profile_pic_shape"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="68dp"
+                android:layout_height="68dp"
+                android:id="@+id/musician_pic"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:text="Christopher Marchand"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="16dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtView_musician_name"
+                android:layout_toRightOf="@id/musician_picholder"
+                />
+
+        <TextView
+                android:text="Age"
+                android:textColor="@color/colorFontSecondary"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="8dp"
+                android:layout_toEndOf="@+id/musician_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtView_musician_age"
+                android:layout_below="@+id/musician_pic"/>
+
+        <TextView
+                android:text="32"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:gravity="bottom"
+                android:layout_alignBottom="@id/txtView_musician_age"
+                android:layout_marginLeft="100dp"
+                android:layout_toEndOf="@+id/txtView_musician_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtView_musician_age_info"
+                android:layout_below="@+id/musician_pic"/>
+
+
+        <TextView
+                android:text="Instrument"
+                android:textColor="@color/colorFontSecondary"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dp"
+                android:layout_toEndOf="@id/musician_pic"
+                android:layout_below="@+id/txtView_musician_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtView_musician_instrument"/>
+
+        <TextView
+                android:text="Keyboard"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="6dp"
+                android:gravity="bottom"
+                android:layout_alignBottom="@id/txtView_musician_instrument"
+                android:layout_alignLeft="@+id/txtView_musician_age_info"
+                android:layout_toEndOf="@+id/txtView_musician_instrument"
+                android:layout_below="@+id/txtView_musician_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtView_musician_instrument_info"
+
+                />
+
+        <TextView
+                android:text="City"
+                android:textColor="@color/colorFontSecondary"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dp"
+                android:layout_toEndOf="@id/musician_pic"
+                android:layout_below="@+id/txtView_musician_instrument"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtView_musician_city"/>
+
+        <TextView
+                android:text="Stavanger"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="6dp"
+                android:gravity="bottom"
+                android:layout_alignBottom="@id/txtView_musician_city"
+                android:layout_alignLeft="@+id/txtView_musician_instrument_info"
+                android:layout_toEndOf="@+id/txtView_musician_city"
+                android:layout_below="@+id/txtView_musician_instrument"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtView_musician_city_info"
+                />
+
+    </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+

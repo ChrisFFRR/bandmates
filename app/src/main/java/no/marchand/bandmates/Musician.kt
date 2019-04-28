@@ -21,7 +21,10 @@ data class Musician(
     var instrument: String = "",
     @get:PropertyName("id")
     @set:PropertyName("id")
-    var id: String = ""
+    var id: String = "",
+    @get:PropertyName("imgUrl")
+    @set:PropertyName("imgUrl")
+    var imgUrl:String = ""
 ) {
-    constructor() : this("", "", "", "", "", "")
+    constructor() : this("", "", "", "", "", "","")
 }

@@ -1,6 +1,5 @@
 package no.marchand.bandmates
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -9,10 +8,12 @@ import android.view.*
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.*
+import de.hdodenhof.circleimageview.CircleImageView
 
 
 private const val ACTIVITY_NUM = 2
@@ -21,7 +22,7 @@ private const val ACTIVITY_NUM = 2
 class FindMusicianActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var firebaseRecyclerAdapter: FirebaseRecyclerAdapter<Musician, MusicianHolder>
+    private lateinit var firebaseRecyclerAdapter: FirebaseRecyclerAdapter<Musician, MusicianViewHolder>
     private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,19 +96,19 @@ class FindMusicianActivity : AppCompatActivity() {
             .setQuery(dbQuery, Musician::class.java)
             .build()
 
-        firebaseRecyclerAdapter = object : FirebaseRecyclerAdapter<Musician, MusicianHolder>(firebaseRecyclerOptions) {
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicianHolder {
+        firebaseRecyclerAdapter = object : FirebaseRecyclerAdapter<Musician, MusicianViewHolder>(firebaseRecyclerOptions) {
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicianViewHolder {
                 val view: View = LayoutInflater.from(parent.context).inflate(R.layout.musician_card_item, parent, false)
                 Log.d("oncreateviewholder", "Triggered")
 
-                return MusicianHolder(view)
+                return MusicianViewHolder(view)
             }
 
-            override fun onBindViewHolder(musicianHolder: MusicianHolder, pos: Int, musician: Musician) {
+            override fun onBindViewHolder(musicianViewHolder: MusicianViewHolder, pos: Int, musician: Musician) {
                 Log.d("onbindViewHolder: ", "Triggered")
 
 
-                musicianHolder.setMusician(musician)
+                musicianViewHolder.setMusician(musician)
             }
 
             override fun onDataChanged() {
@@ -134,12 +135,13 @@ class FindMusicianActivity : AppCompatActivity() {
 
     }
 
-    class MusicianHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MusicianViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val userName: TextView = itemView.findViewById(R.id.txtView_musician_name)
-        private val userAge: TextView = itemView.findViewById(R.id.txtView_musician_age_info)
-        private val userInstrument: TextView = itemView.findViewById(R.id.txtView_musician_instrument_info)
-        private val userCity: TextView = itemView.findViewById(R.id.txtView_musician_city_info)
+        private val musicianName: TextView = itemView.findViewById(R.id.txtView_musician_name)
+        private val musicianAge: TextView = itemView.findViewById(R.id.txtView_musician_age_info)
+        private val musicianInstrument: TextView = itemView.findViewById(R.id.txtView_musician_instrument_info)
+        private val musicianCity: TextView = itemView.findViewById(R.id.txtView_musician_city_info)
+        private val musicianPhoto: CircleImageView = itemView.findViewById(R.id.musician_pic)
 
         fun setMusician(musician: Musician) {
             val musicianFirstname = musician.firstName
@@ -147,10 +149,16 @@ class FindMusicianActivity : AppCompatActivity() {
             val musicianAge = musician.age
             val musicianInstrument = musician.instrument
             val musicianCity = musician.city
-            userName.text = "$musicianFirstname $musicianLastname"
-            userAge.text = musicianAge
-            userInstrument.text = musicianInstrument
-            userCity.text = musicianCity
+            val musicianPhoto = musician.imgUrl
+
+            this.musicianName.text = "$musicianFirstname $musicianLastname"
+            this.musicianAge.text = musicianAge
+            this.musicianInstrument.text = musicianInstrument
+            this.musicianCity.text = musicianCity
+            Glide.with(itemView)
+                .load(musicianPhoto)
+                .override(68,68)
+                .into(this.musicianPhoto)
         }
     }
 

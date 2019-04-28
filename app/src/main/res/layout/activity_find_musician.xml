@@ -11,7 +11,8 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/navigationView">
 
         <TextView
                 android:layout_width="match_parent"
@@ -27,6 +28,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_musicians"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="60dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>

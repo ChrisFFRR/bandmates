@@ -1,65 +1,157 @@
 package no.marchand.bandmates
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
+import android.view.*
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.firebase.ui.database.FirebaseRecyclerAdapter
+import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.*
 
 
 private const val ACTIVITY_NUM = 2
 
+
 class FindMusicianActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var adapter: MusicianAdapter
-    private lateinit var firebaseDB: FirebaseDatabase
-    private lateinit var usersReference: DatabaseReference
-    private val usersFirebaseDb: MutableList<Musician?> = mutableListOf()
-
-
+    private lateinit var firebaseRecyclerAdapter: FirebaseRecyclerAdapter<Musician, MusicianHolder>
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_find_musician)
 
 
+        loadingDialog = LoadingDialog(this)
 
-        firebaseDB = FirebaseDatabase.getInstance()
-        usersReference = firebaseDB.reference.child("musicians")
-
-        usersReference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(dbErr: DatabaseError) {
-                Log.d("Firebase userfetch cancelled: ", dbErr.toException().toString())
-            }
-
-            override fun onDataChange(dbSnapshot: DataSnapshot) {
-                Log.d("USERS IN DB: ", dbSnapshot.childrenCount.toString())
-                if (dbSnapshot.exists()) {
-
-                    for (snapShot in dbSnapshot.children) {
-                        val musician = snapShot.getValue(Musician::class.java)
-                        usersFirebaseDb.add(musician)
-                    }
-                }
-            }
+      /*
+       *  Dette er ikke en bra implementering.
+       *  Første gang vi laster dataen fra firebase, tar det litt tid å laste dataen, så jeg bruker en loading dialog
+       *  som blir dismissed i onDataChanged metoden. Det fungerer helt fint første gangen, men om man navigerer seg rundt
+       *  og tilbake til denne activitien, er dataen allerede hentet, og det tar mye kortere tid før data blir vist.
+       *  Det fører til at loading dialogen bare blir vist i noen millisekunder, og det ser ikke bra ut.
+       */
+        loadingDialog.showDialog()
+        /*
+        *
+        *
+        *  Dette er en kode block som lytter til database endringer i firebase og returnerer eventuell ny data.
+        *  Jeg tenkte først jeg kunne bruke dette til å vise i en recycleview, men jeg fikk ikke til å få det oppdatert
+        *  via MusicanAdapter klassen min. Etter en del research fant jeg ut at Firebase har egne Recyclerview klasser
+        *  som gjør akkurat det jeg ville, og jeg implementerte dem i stedet.
+        *  Jeg velger å la koden være her, men kommenterer det ut for å vise hvordan jeg først prøvde å løse problemet.
+        *
+        *  Etter at jeg implementerte FirebaseRecyclerAdapter, trenger jeg ikke å bruke MusicianAdapter heller,
+        *  men lar den klassen også være i prosjektet for å vise hvordan den er linket sammen med koden under.
+        *
+        *  Hvis koden under skulle ha vært brukt, hadde jeg hatt disse deklareringene som klassefelt:
+        *
+        *        private lateinit var adapter: MusicianAdapter
+        *        private lateinit var firebaseDB: FirebaseDatabase
+        *        private lateinit var usersReference: DatabaseReference
+        *        private val usersFirebaseDb: MutableList<Musician?> = mutableListOf()
+        *
+        *
+        *       firebaseDB = FirebaseDatabase.getInstance()
+        *       usersReference = firebaseDB.reference.child("musicians")
+        *
+        *       usersReference.addListenerForSingleValueEvent(object : ValueEventListener {
+        *           override fun onCancelled(dbErr: DatabaseError) {
+        *               Log.d("Firebase userfetch cancelled: ", dbErr.toException().toString())
+        *           }
+        *
+        *           override fun onDataChange(dbSnapshot: DataSnapshot) {
+        *               Log.d("USERS IN DB: ", dbSnapshot.childrenCount.toString())
+        *               if (dbSnapshot.exists()) {
+        *
+        *                   for (snapShot in dbSnapshot.children) {
+        *                       val musician = snapShot.getValue(Musician::class.java)
+        *                       usersFirebaseDb.add(musician)
+        *                   }
+        *               }
+        *               adapter = MusicianAdapter(usersFirebaseDb)
+        *               recyclerView.adapter = adapter
+        *           }
 
         })
 
-        adapter = MusicianAdapter(this)
+        */
 
         recyclerView = findViewById(R.id.recycler_view_musicians)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
+
+        val dbRef = FirebaseDatabase.getInstance().reference
+        val dbQuery = dbRef.child("musicians")
+
+
+        val firebaseRecyclerOptions = FirebaseRecyclerOptions.Builder<Musician>()
+            .setQuery(dbQuery, Musician::class.java)
+            .build()
+
+        firebaseRecyclerAdapter = object : FirebaseRecyclerAdapter<Musician, MusicianHolder>(firebaseRecyclerOptions) {
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicianHolder {
+                val view: View = LayoutInflater.from(parent.context).inflate(R.layout.musician_card_item, parent, false)
+                Log.d("oncreateviewholder", "Triggered")
+
+                return MusicianHolder(view)
+            }
+
+            override fun onBindViewHolder(musicianHolder: MusicianHolder, pos: Int, musician: Musician) {
+                Log.d("onbindViewHolder: ", "Triggered")
+
+
+                musicianHolder.setMusician(musician)
+            }
+
+            override fun onDataChanged() {
+                loadingDialog.hideDialog()
+
+            }
+        }
+        recyclerView.adapter = firebaseRecyclerAdapter
 
 
 
         setupBottomNavView()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        firebaseRecyclerAdapter.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        firebaseRecyclerAdapter.stopListening()
+
+
+    }
+
+    class MusicianHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        private val userName: TextView = itemView.findViewById(R.id.txtView_musician_name)
+        private val userAge: TextView = itemView.findViewById(R.id.txtView_musician_age_info)
+        private val userInstrument: TextView = itemView.findViewById(R.id.txtView_musician_instrument_info)
+        private val userCity: TextView = itemView.findViewById(R.id.txtView_musician_city_info)
+
+        fun setMusician(musician: Musician) {
+            val musicianFirstname = musician.firstName
+            val musicianLastname = musician.lastName
+            val musicianAge = musician.age
+            val musicianInstrument = musician.instrument
+            val musicianCity = musician.city
+            userName.text = "$musicianFirstname $musicianLastname"
+            userAge.text = musicianAge
+            userInstrument.text = musicianInstrument
+            userCity.text = musicianCity
+        }
     }
 
     private fun setupBottomNavView() {
@@ -68,6 +160,16 @@ class FindMusicianActivity : AppCompatActivity() {
         val menu: Menu = bottomNav.menu
         val menuItem: MenuItem = menu.getItem(ACTIVITY_NUM)
         menuItem.isChecked = true
+    }
+
+    private fun showCustomLoadingDialog() {
+
+        loadingDialog.showDialog()
+
+        val handler = Handler()
+
+
+        handler.postDelayed({ loadingDialog.hideDialog() }, 2000)
 
     }
 

@@ -9,7 +9,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -30,9 +29,6 @@ private const val EXTERNAL_STORAGE_REQ_CODE = 2
 private const val WRITE_EXT_STORAGE_CODE = 6
 private const val GALLERY_REQ_CODE = 3
 private const val CAMERA_REQ_CODE = 4
-private const val IMAGEPREFS = "ImagePrefs"
-private const val prefURI = "uriKey"
-private const val prefBitMap = "bitmapKey"
 
 
 
@@ -42,20 +38,8 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
 
 
-    private var selectedImgURI: Uri? = null
-    private var selectedImg: String? = ""
 
-    /*
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putSerializable("profilePic",)
-    }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        super.onRestoreInstanceState(savedInstanceState)
-
-    }
-    */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,40 +59,55 @@ class UserProfileActivity : AppCompatActivity() {
         val bioTxtView: TextView = findViewById(R.id.txtView_Bio)
 
 
-
         setupBottomNavView()
 
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), EXTERNAL_STORAGE_REQ_CODE)
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                EXTERNAL_STORAGE_REQ_CODE
+            )
         }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), WRITE_EXT_STORAGE_CODE)
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                WRITE_EXT_STORAGE_CODE
+            )
         }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), CAMERA_REQ_CODE)
         }
 
 
-        userViewModel.allUsers.observe(this, Observer { user ->
+        userViewModel.allUsers.observe(this, Observer {
 
-                nameTxtView.text = user[0].firstName + " " + user[0].lastName
-                ageTxtView.text = user[0].age
-                instrumentTxtView.text = user[0].instrument
-                cityTxtView.text = user[0].city
-                bioTxtView.text = user[0].bio
+            nameTxtView.text = "${it[0].firstName} ${it[0].lastName}"
+            ageTxtView.text = it[0].age
+            instrumentTxtView.text = it[0].instrument
+            cityTxtView.text = it[0].city
+            bioTxtView.text = it[0].bio
 
 
-                if (user[0].profile_pic_path != "") {
+            if (it[0].profile_pic_path != "") {
 
-                    var pickPath = user[0].profile_pic_path
-                    var picURI = Uri.parse(pickPath)
+                var pickPath = it[0].profile_pic_path
+                var picURI = Uri.parse(pickPath)
 
-                    loadImageFromURI(picURI)
-                    //profile_pic_display.setImageURI(picURI)
+                loadImageFromURI(picURI)
 
-                    plus_sign.visibility = View.GONE
-                }
+
+                plus_sign.visibility = View.GONE
+            }
         })
 
         signoutBtn.setOnClickListener {
@@ -116,7 +115,7 @@ class UserProfileActivity : AppCompatActivity() {
             startActivity(Intent(this@UserProfileActivity, MainActivity::class.java))
         }
 
-        editBioBtn.setOnClickListener{
+        editBioBtn.setOnClickListener {
             val mBioDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_bio, null)
             val mEditBio = mBioDialogView.findViewById<EditText>(R.id.editTxt_dialog)
 
@@ -136,16 +135,6 @@ class UserProfileActivity : AppCompatActivity() {
                 mBioDialog.dismiss()
             }
         }
-
-/*
-For recyclerview liste
-        userViewModel.allUsers.observe(this, Observer { users ->
-            users.forEach { _ ->
-                adapter.setUsers(users)
-            }
-        })
-*/
-
         cameraBtn.setOnClickListener {
             showPictureDialog()
         }
@@ -158,7 +147,7 @@ For recyclerview liste
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
 
                 } else {
-                   Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT)
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT)
                 }
             }
         }
@@ -167,11 +156,11 @@ For recyclerview liste
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(resultCode == Activity.RESULT_OK) {
-            when(requestCode) {
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
                 GALLERY_REQ_CODE -> {
-                   var selectedImgURI = data?.data
-                   var selectedImg = selectedImgURI?.path
+                    var selectedImgURI = data?.data
+                    var selectedImg = selectedImgURI?.path
                     loadImageFromURI(selectedImgURI)
 
                     profile_pic_display.setImageURI(selectedImgURI)
@@ -189,18 +178,6 @@ For recyclerview liste
         }
     }
 
-  override fun onPause() {
-      super.onPause()
-      Log.d("TAG:: ", "ONPAUSE")
-  }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("TAG::", "ONSTOP")
-    }
-
-
-
     private fun setupBottomNavView() {
         val bottomNav: BottomNavigationView = findViewById(R.id.bottom_nav_view_bar)
         NavBottomUtil.enableNavigation(this@UserProfileActivity, bottomNav)
@@ -210,19 +187,19 @@ For recyclerview liste
 
     }
 
-   private fun showPictureDialog() {
-       val picDialogItems = arrayOf("Select photo from gallery", "Capture photo from camera")
+    private fun showPictureDialog() {
+        val picDialogItems = arrayOf("Select photo from gallery", "Capture photo from camera")
 
-      val choosePicDialog = AlertDialog.Builder(this)
-       choosePicDialog.setTitle("Test")
-       choosePicDialog.setItems(picDialogItems) { _: DialogInterface, item: Int ->
-           when (item) {
-               0 -> choosePicFromGallery()
-               1 -> takePhotoFromCamera()
-           }
-       }
-       choosePicDialog.show()
-   }
+        val choosePicDialog = AlertDialog.Builder(this)
+        choosePicDialog.setTitle("Choose profile picture")
+        choosePicDialog.setItems(picDialogItems) { _: DialogInterface, item: Int ->
+            when (item) {
+                0 -> choosePicFromGallery()
+                1 -> takePhotoFromCamera()
+            }
+        }
+        choosePicDialog.show()
+    }
 
     private fun takePhotoFromCamera() {
         val i = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
@@ -241,7 +218,10 @@ For recyclerview liste
 
     private fun loadImageFromURI(path: Uri?) {
 
-        Glide.with(this).load(path?.path).into(profile_pic_display)
+        Glide
+            .with(this)
+            .load(path?.path)
+            .into(profile_pic_display)
     }
 
 }

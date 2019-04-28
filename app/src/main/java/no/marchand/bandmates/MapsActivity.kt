@@ -42,6 +42,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private var locationNetwork: Location? = null
     private  var currentPos: LatLng = LatLng(0.0,0.0)
 
+    private lateinit var loadingDialog: LoadingDialog
 
     private var hasGps = false
     private var hasNetwork = false
@@ -73,9 +74,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-
         mMap = googleMap
-
 
         mMap.run {
             addMarker(MarkerOptions().position(currentPos).title("You"))

@@ -27,11 +27,14 @@ class MainActivity : AppCompatActivity(), OnFragmentInputListener {
         setContentView(R.layout.activity_main)
 
         userModel = UserViewModel(application)
+
     }
 
     override fun onStart() {
         super.onStart()
         currentUser = mAuth.currentUser
+
+
         if (currentUser != null) {
             val i = Intent(this, UserProfileActivity::class.java)
             startActivity(i)
@@ -42,9 +45,9 @@ class MainActivity : AppCompatActivity(), OnFragmentInputListener {
         }
     }
 
-    override fun onRegisterInputs(user: User, pw: String, email: String) {
+    override fun onRegisterInputs(user: User, email: String, pw: String) {
 
-        registerUser(pw, email)
+        registerUser( email, pw)
         userModel.insert(user)
 
     }

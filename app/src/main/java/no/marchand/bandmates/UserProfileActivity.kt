@@ -2,6 +2,7 @@ package no.marchand.bandmates
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,6 +10,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -23,6 +25,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import kotlinx.android.synthetic.main.dialog_bio.view.*
+import java.io.ByteArrayOutputStream
 
 private const val ACTIVITY_NUM = 1
 private const val EXTERNAL_STORAGE_REQ_CODE = 2
@@ -36,10 +39,6 @@ class UserProfileActivity : AppCompatActivity() {
 
     private lateinit var userViewModel: UserViewModel
     private lateinit var firebaseAuth: FirebaseAuth
-
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,16 +97,12 @@ class UserProfileActivity : AppCompatActivity() {
             bioTxtView.text = it[0].bio
 
 
-            if (it[0].profile_pic_path != "") {
-
                 var pickPath = it[0].profile_pic_path
                 var picURI = Uri.parse(pickPath)
 
                 loadImageFromURI(picURI)
 
-
                 plus_sign.visibility = View.GONE
-            }
         })
 
         signoutBtn.setOnClickListener {
@@ -127,7 +122,6 @@ class UserProfileActivity : AppCompatActivity() {
                 mBioDialog.dismiss()
                 bioTxtView.text = bio
                 userViewModel.updateBio(bio, 1)
-
 
             }
 
@@ -159,23 +153,39 @@ class UserProfileActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 GALLERY_REQ_CODE -> {
-                    var selectedImgURI = data?.data
-                    var selectedImg = selectedImgURI?.path
+                    var selectedImgURI = data?.data as Uri
+                    var selectedImg = selectedImgURI.path
+
                     loadImageFromURI(selectedImgURI)
 
-                    profile_pic_display.setImageURI(selectedImgURI)
+                   // profile_pic_display.setImageURI(selectedImgURI)
 
                     userViewModel.updateProfilePic(selectedImg, 1)
 
                 }
                 CAMERA_REQ_CODE -> {
                     val cameraImg = data?.extras?.get("data") as Bitmap
-                    profile_pic_display.setImageBitmap(cameraImg)
+                    val cameraImgUri = getImageUriFromBitmap(this, cameraImg)
+                    val cameraImgUriString = cameraImgUri.toString()
+                    userViewModel.updateProfilePic(cameraImgUriString, 1)
+
+                    Glide.with(this).asBitmap().load(cameraImg).into(profile_pic_display)
+                    //profile_pic_display.setImageBitmap(cameraImg)
                 }
             }
 
             plus_sign.visibility = View.GONE
         }
+    }
+
+    /*
+     * REF: https://stackoverflow.com/a/15432979/8505425
+     */
+    private fun getImageUriFromBitmap(context: Context, bitmap: Bitmap): Uri {
+        val bytes = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        val path = MediaStore.Images.Media.insertImage(context.contentResolver, bitmap,"Title", null)
+        return Uri.parse(path)
     }
 
     private fun setupBottomNavView() {
@@ -216,11 +226,11 @@ class UserProfileActivity : AppCompatActivity() {
         startActivityForResult(i, GALLERY_REQ_CODE)
     }
 
-    private fun loadImageFromURI(path: Uri?) {
+    private fun loadImageFromURI(path: Uri) {
 
         Glide
             .with(this)
-            .load(path?.path)
+            .load(path.path)
             .into(profile_pic_display)
     }
 

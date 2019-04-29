@@ -17,7 +17,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
 
     private val repository: UserRepository
-   private lateinit var user: LiveData<User>
     val allUsers: LiveData<List<User>>
 
     private var parentJob = Job()
@@ -32,20 +31,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
-
-
-    fun countAll() = scope.launch(Dispatchers.IO) {
-        repository.countAll()
-    }
-
     fun insert(user:User) = scope.launch(Dispatchers.IO) {
 
         repository.insert(user)
     }
 
-    fun update(user: User) = scope.launch(Dispatchers.IO) {
-        repository.update(user)
-    }
 
     fun updateProfilePic(path: String?, id: Int ) = scope.launch(Dispatchers.IO) {
         repository.updateProfilePic(path, id)

@@ -71,6 +71,7 @@ class SignupFragment : Fragment() {
             tempUser.instrument = mInstrument
             tempUser.city = mCity
             val email = editTxtEmail.text.toString()
+
             val pwd = editTxtPwd.text.toString()
 
 
